@@ -24,6 +24,41 @@ namespace mvc.Controllers
             return View(Aluno.Todos());
         }
 
+        [Route("/alunos/create")]
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [Route("/alunos/create")]
+        [HttpPost]
+        public IActionResult Create(string nome, string matricula, string notas)
+        {
+            var aluno = new Aluno()
+            {
+                Nome = nome,
+                Matricula = matricula
+            };
+
+            // Converter notas string para List<double>
+            if (!string.IsNullOrEmpty(notas))
+            {
+                var notasArray = notas.Split(',');
+                foreach (var nota in notasArray)
+                {
+                    if (double.TryParse(nota.Trim().Replace(".", ","), out double notaValue))
+                    {
+                        aluno.Notas.Add(notaValue);
+                    }
+                }
+            }
+
+            aluno.Salvar();
+
+            return RedirectToAction("Index");
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

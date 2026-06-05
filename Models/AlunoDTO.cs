@@ -19,7 +19,7 @@ namespace mvc.Models
             notas varchar(255)
         );
       */
-      return "Server=localhost;database=desafio21diasapi;user=sa;password=!1#2a3d4c5g6v";
+      return "Server=localhost;database=VendasDB;user=sa;password=P@ssw0rd";
     }
 
     public static void Incluir(Aluno aluno)
@@ -83,7 +83,7 @@ namespace mvc.Models
         string strNotas = reader["notas"].ToString();
         foreach(var nota in strNotas.Split(','))
         {
-          notas.Add(Convert.ToDouble(nota));
+          notas.Add(Convert.ToDouble(nota.Replace(".", ",")));
         }
 
         var aluno = new Aluno()

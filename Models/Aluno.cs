@@ -32,7 +32,7 @@ namespace mvc.Models
 
     public string StrNotas()
     {
-      return string.Join(", ", this.Notas.ToArray());
+      return string.Join(" | ", this.Notas.ToArray());
     }
     public double CalcularMedia()
     {

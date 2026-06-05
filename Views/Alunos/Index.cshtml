@@ -5,6 +5,11 @@
 <div class="text-center">
     <h1 class="display-4">Alunos</h1>
 </div>
+
+<div class="mb-3">
+    <a href="/alunos/create" class="btn btn-primary">+ Criar Novo Aluno</a>
+</div>
+
 <table class="table">
   <thead>
     <tr>
@@ -23,7 +28,15 @@
         <td>@aluno.Nome</td>
         <td>@aluno.Matricula</td>
         <td>@aluno.StrNotas()</td>
-        <td>@aluno.Situacao()</td>
+        @if (aluno.Situacao() == "Aprovado")
+        {
+          <td style="color: green; font-weight: bold;">Aprovado</td>
+        }
+        else
+        {
+          <td style="color: red; font-weight: bold;">Reprovado</td>
+
+        }
         </tr>
     }
   </tbody>
