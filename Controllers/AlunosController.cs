@@ -6,22 +6,26 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using mvc.Models;
+using mvc.Services;
 
 namespace mvc.Controllers
 {
     public class AlunosController : Controller
     {
         private readonly ILogger<AlunosController> _logger;
+        private readonly AlunoService _alunoService;
 
-        public AlunosController(ILogger<AlunosController> logger)
+        public AlunosController(ILogger<AlunosController> logger, AlunoService alunoService)
         {
             _logger = logger;
+            _alunoService = alunoService;
         }
 
         [Route("/alunos")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(Aluno.Todos());
+            var alunos = await _alunoService.ObterTodosAsync();
+            return View(alunos);
         }
 
         [Route("/alunos/create")]
@@ -33,7 +37,7 @@ namespace mvc.Controllers
 
         [Route("/alunos/create")]
         [HttpPost]
-        public IActionResult Create(string nome, string matricula, string notas)
+        public async Task<IActionResult> Create(string nome, string matricula, string notas)
         {
             var aluno = new Aluno()
             {
@@ -54,7 +58,7 @@ namespace mvc.Controllers
                 }
             }
 
-            aluno.Salvar();
+            await _alunoService.InserirAsync(aluno);
 
             return RedirectToAction("Index");
         }
